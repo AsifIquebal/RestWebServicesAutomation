@@ -24,8 +24,8 @@ public class Base {
         try {
             input = new FileInputStream("src/main/resources/config.properties");
             properties.load(input);
-            System.out.println(properties.getProperty("key1"));
-            System.out.println(properties.getProperty("key2"));
+            /*System.out.println(properties.getProperty("key1"));
+            System.out.println(properties.getProperty("key2"));*/
             RestAssured.baseURI = properties.getProperty("testurl");
         } catch (IOException e) {
             e.printStackTrace();
