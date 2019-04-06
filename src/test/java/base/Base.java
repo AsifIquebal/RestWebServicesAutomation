@@ -19,6 +19,7 @@ public class Base {
 
     @BeforeClass
     public void setUp(){
+        System.out.println("Test Class: " + this.getClass().getSimpleName());
         Properties properties = new Properties();
         InputStream input = null;
         try {

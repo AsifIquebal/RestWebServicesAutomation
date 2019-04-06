@@ -4,10 +4,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utility.utils;
 
@@ -21,7 +17,7 @@ public class TestClass1 extends Base {
     Response response;
 
     @Test
-    public void validateGetAlbumStatusCode(){
+    public void validateGetAlbumStatusCode() {
         log.info("Calling GET api: " + RestAssured.baseURI + "/albums");
         response = given()
                 .when()
@@ -29,23 +25,23 @@ public class TestClass1 extends Base {
                 .then().log().status()
                 .extract()
                 .response();
-        Assert.assertTrue(response.getStatusCode()==200,"Status Code Mismatch...");
+        Assert.assertTrue(response.getStatusCode() == 200, "Status Code Mismatch...");
     }
 
     @Test
-    public void validateAlbumSize(){
+    public void validateAlbumSize() {
         response = utils.GET_Response("/albums");
-        List<String> list = JsonPath.read(response.asString(),"$.[*].id");
-        Assert.assertTrue(list.size()==100,"Album size didn't matched");
+        List<String> list = JsonPath.read(response.asString(), "$.[*].id");
+        Assert.assertTrue(list.size() == 100, "Album size didn't matched");
         //response.jsonPath().getList("$.[*].id").size()
     }
 
     @Test
-    public void validateUsersCompany(){
+    public void validateUsersCompany() {
         response = utils.GET_Response("/users");
         // can be dynamic, based on another end point response
-        List<String> list = JsonPath.read(response.asString(),"$.[*].[?(@.name=='Leanne Graham')].company.name");
-        Assert.assertEquals(list.get(0),"Romaguera-Crona");
+        List<String> list = JsonPath.read(response.asString(), "$.[*].[?(@.name=='Leanne Graham')].company.name");
+        Assert.assertEquals(list.get(0), "Romaguera-Crona");
     }
 
     // hamcrest matcher example
@@ -56,8 +52,8 @@ public class TestClass1 extends Base {
                 .expect()
                 .body("url[0]", equalTo("http://placehold.it/600/92c952"))
                 .body("url[4999]", equalTo("http://placehold.it/600/6dd9cb"))
-        .when()
-        .get("/photos");
+                .when()
+                .get("/photos");
     }
 
 
