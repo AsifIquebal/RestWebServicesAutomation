@@ -22,3 +22,4 @@ pipeline {
         }
     }
 }
+// Make sure Jenkins has Maven Plugin : https://wiki.jenkins.io/display/JENKINS/Pipeline+Maven+Plugin
