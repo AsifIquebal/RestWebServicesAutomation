@@ -4,7 +4,13 @@ pipeline {
         stage('Cleaning Stage') {
             steps {
                 withMaven(maven : 'MyMaven'){
-                    bat 'mvn clean'
+                    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+                        echo "it's Windows"
+                        bat 'mvn clean'
+                    } else {
+                        echo "it's not Windows"
+                        sh 'mvn clean'
+                    }
                 }
             }
         }
