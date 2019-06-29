@@ -1,27 +1,37 @@
 pipeline {
     agent any
     stages {
+
         stage('Cleaning Stage') {
             steps {
                 withMaven(maven : 'MyMaven'){
-                script{
-                    if (!isUnix()) {
-                        echo "it's Windows"
-                        bat 'mvn clean'
-                    } else {
-                        echo "it's not Windows"
-                        sh 'mvn clean'
+                    script{
+                        if (!isUnix()) {
+                            echo "it's Windows"
+                            bat 'mvn clean'
+                        } else {
+                            echo "it's unix/max"
+                            sh 'mvn clean'
+                        }
                     }
                 }
             }
         }
-    }
+
         stage('Testing Stage') {
-              steps {
-                  withMaven(maven : 'MyMaven'){
-                      bat 'mvn test'
-                  }
-              }
+            steps {
+                withMaven(maven : 'MyMaven'){
+                    script{
+                        if (!isUnix()) {
+                            echo "it's Windows"
+                            bat 'mvn test'
+                        } else {
+                            echo "it's unix/mac"
+                            sh 'mvn test'
+                        }
+                    }
+                }
+            }
         }
     }
     post {
