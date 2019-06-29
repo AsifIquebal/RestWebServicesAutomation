@@ -5,7 +5,7 @@ pipeline {
             steps {
                 withMaven(maven : 'MyMaven'){
                 script{
-                    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+                    if (!isUnix()) {
                         echo "it's Windows"
                         bat 'mvn clean'
                     } else {
