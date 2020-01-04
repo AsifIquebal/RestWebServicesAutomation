@@ -25,14 +25,14 @@ public class TestClass1 extends Base {
                 .then().log().status()
                 .extract()
                 .response();
-        Assert.assertTrue(response.getStatusCode() == 200, "Status Code Mismatch...");
+        Assert.assertEquals(response.getStatusCode(), 200, "Status Code Mismatch...");
     }
 
     @Test
     public void validateAlbumSize() {
         response = utils.GET_Response("/albums");
         List<String> list = JsonPath.read(response.asString(), "$.[*].id");
-        Assert.assertTrue(list.size() == 100, "Album size didn't matched");
+        Assert.assertEquals(list.size(), 100, "Album size didn't matched");
         //response.jsonPath().getList("$.[*].id").size()
     }
 
