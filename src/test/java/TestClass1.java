@@ -50,8 +50,8 @@ public class TestClass1 extends Base {
         given()
                 .contentType(ContentType.JSON)
                 .expect()
-                .body("url[0]", equalTo("http://placehold.it/600/92c952"))
-                .body("url[4999]", equalTo("http://placehold.it/600/6dd9cb"))
+                .body("url[0]", equalTo("https://via.placeholder.com/600/92c952"))
+                .body("url[4999]", equalTo("https://via.placeholder.com/600/6dd9cb"))
                 .when()
                 .get("/photos");
     }
