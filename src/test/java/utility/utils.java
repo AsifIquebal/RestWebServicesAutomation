@@ -22,9 +22,9 @@ public class utils {
         Response response = given()
                 .when()
                 .get(endPoint)
-                .prettyPeek()
+                //.prettyPeek()
                 .then()
-                .log().status()
+                //.log().status()
                 .extract().response();
         return response;
     }
@@ -37,8 +37,8 @@ public class utils {
                         .body(object)
                         .when()
                         .post(endPoint)
-                        .prettyPeek()
-                        .then().log().status()
+                        //.prettyPeek()
+                        .then()//.log().status()
                         .extract().response();
         return response;
     }
@@ -110,6 +110,5 @@ public class utils {
     public static String prettyFormat(String input) {
         return prettyFormat(input, 2);
     }
-
 
 }
