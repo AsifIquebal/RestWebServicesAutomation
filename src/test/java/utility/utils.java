@@ -10,7 +10,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -19,66 +18,57 @@ import static io.restassured.RestAssured.given;
 public class utils {
 
     public static Response GET_Response(String endPoint) {
-        Response response = given()
+        return given()
                 .when()
                 .get(endPoint)
                 //.prettyPeek()
                 .then()
                 //.log().status()
                 .extract().response();
-        return response;
     }
 
     public static Response POST_Request(String endPoint, Object object) {
-        Response response =
-                given()
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json")
-                        .body(object)
-                        .when()
-                        .post(endPoint)
-                        //.prettyPeek()
-                        .then()//.log().status()
-                        .extract().response();
-        return response;
+        return given()
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .body(object)
+                .when()
+                .post(endPoint)
+                //.prettyPeek()
+                .then()//.log().status()
+                .extract().response();
     }
 
     public static Response PUT_Request(String endPoint, Object object) {
-        Response response =
-                given()
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json")
-                        .body(object)
-                        .when()
-                        .put(endPoint)
-                        .then().log().status()
-                        .extract().response();
-        return response;
+        return given()
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .body(object)
+                .when()
+                .put(endPoint)
+                .then().log().status()
+                .extract().response();
     }
 
     public static Response PATCH_Request(String endPoint, Object object) {
-        Response response =
-                given()
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json")
-                        .body(object)
-                        .when()
-                        .patch(endPoint)
-                        .then().log().status()
-                        .extract().response();
-        return response;
+        return given()
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .body(object)
+                .when()
+                .patch(endPoint)
+                .then().log().status()
+                .extract().response();
     }
 
     public static Response DELETE_Request(String endPoint) {
-        Response response =
-                given()
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json")
-                        .when()
-                        .patch(endPoint)
-                        .then().log().status()
-                        .extract().response();
-        return response;
+        return given()
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .when()
+                .patch(endPoint)
+                .then().log().status()
+                .extract().response();
     }
 
     public static void printJson(Object obj) {
@@ -103,7 +93,7 @@ public class utils {
             transformer.transform(xmlInput, xmlOutput);
             return xmlOutput.getWriter().toString();
         } catch (Exception e) {
-            throw new RuntimeException(e); // simple exception handling, please review it
+            throw new RuntimeException(e);
         }
     }
 
