@@ -36,6 +36,7 @@ public class TestClass1 extends Base {
         //response.jsonPath().getList("$.[*].id").size()
     }
 
+
     @Test
     public void validateUsersCompany() {
         response = utils.GET_Response("/users");
