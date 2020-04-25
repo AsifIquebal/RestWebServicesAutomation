@@ -1,3 +1,5 @@
+package TestCases;
+
 import base.Base;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.RestAssured;
@@ -35,7 +37,6 @@ public class TestClass1 extends Base {
         Assert.assertEquals(list.size(), 100, "Album size didn't matched");
         //response.jsonPath().getList("$.[*].id").size()
     }
-
 
     @Test
     public void validateUsersCompany() {

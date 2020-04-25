@@ -1,3 +1,5 @@
+package TestCases;
+
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.json.XML;

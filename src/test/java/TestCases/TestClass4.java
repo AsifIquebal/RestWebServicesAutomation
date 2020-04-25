@@ -1,3 +1,5 @@
+package TestCases;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import demo2.Request;

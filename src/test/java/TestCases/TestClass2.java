@@ -1,3 +1,5 @@
+package TestCases;
+
 import base.Base;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.http.ContentType;
