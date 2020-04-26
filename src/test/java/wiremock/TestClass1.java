@@ -1,11 +1,14 @@
 package wiremock;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static io.restassured.RestAssured.given;
 
 public class TestClass1 extends MockBase {
@@ -40,6 +43,19 @@ public class TestClass1 extends MockBase {
                 get("/basic/auth/case-insensitive").
                 then().extract().response();
         Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
+    }
+
+    @Test
+    public void test01(){
+        stubs.getStubForToolQuery();
+        Response response = given().
+                header("Authorization", "BASIC dXNlcm5hbWU6cGFzc3dvcmQ=").
+                when().
+                queryParam("name","Wiremock").
+                get("/tool/mocking").
+                then().extract().response();
+        int num = JsonPath.read(response.asString(),"$.number");
+        Assert.assertEquals(num, 123, "Failed: Number field mismatch");
     }
 
     @Test
