@@ -1,9 +1,6 @@
 package wiremock;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.common.ConsoleNotifier;
-import com.github.tomakehurst.wiremock.common.Notifier;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -15,7 +12,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.requestSpecification;
 
@@ -93,18 +89,19 @@ public class Demo_withTestNG {
     }
 
     @Test
-    public void responseSpec(){
+    public void responseSpec() {
         ResponseSpecBuilder responseSpecBuilder = new ResponseSpecBuilder();
         //responseSpecBuilder.expectBody().expectContentType().expectHeader().expectCookie().expectStatusCode().expectResponseTime()
     }
+
     @Test
-    public void getRequest(){
+    public void getRequest() {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.requestSpecification = new RequestSpecBuilder().
                 setBaseUri("http://localhost:8080/").
                 setContentType(ContentType.JSON).
                 build();
-                //log().all();
+        //log().all();
         /*System.out.println("----------------------------------------------------------");
         RestAssured.responseSpecification = new ResponseSpecBuilder().
                 build().
@@ -168,7 +165,7 @@ public class Demo_withTestNG {
                 .when()
                 .get("/asif/1")
                 .getHeaders();
-        for(Header header:headers){
+        for (Header header : headers) {
             System.out.println("Header Name: " + header.getName() + ", Header Value: " + header.getValue());
         }
         String acceptHeaderValue = headers.get("Accept").getValue();
@@ -187,14 +184,14 @@ public class Demo_withTestNG {
                 .then()
                 .extract().response();
         Headers headers = response.getHeaders();
-        for(Header header:headers){
+        for (Header header : headers) {
             System.out.println("Header Name: " + header.getName() + ", Header Value: " + header.getValue());
         }
         System.out.println("---------------------------------------------------------------");
     }
 
     @Test
-    public void basicAuth(){
+    public void basicAuth() {
         given().
                 auth().preemptive().basic("uname", "password").
                 when().
@@ -202,37 +199,22 @@ public class Demo_withTestNG {
                 then().extract().response();
     }
 
-    @Test
-    public void matchesPreemptiveBasicAuthWhenCredentialAreCorrect() {
-        turnOffWiremockLogging();
-        wireMockServer = new WireMockServer();
-        wireMockServer.start();
-        stubFor(get(urlEqualTo("/basic/auth/preemptive"))
-                .withBasicAuth("uname", "password")
-                .willReturn(aResponse().withStatus(200)));
-        /*WireMockResponse response = testClient.getWithPreemptiveCredentials(
-                "/basic/auth/preemptive", wireMockServer.port(), "the-username", "thepassword");*/
-        Response response = given().
-                auth().preemptive().basic("uname", "password").
-                when().
-                get("/basic/auth/preemptive").
-                then().extract().response();
-        System.out.println(response.getStatusLine());
-    }
-
     @AfterClass
     public void tearDown() {
-        wireMockServer.stop();
+        if (null != wireMockServer && wireMockServer.isRunning()) {
+            // graceful shutdown
+            wireMockServer.shutdownServer();
+        }
+        // force stop
+        // wireMockServer.stop();
     }
 
-    public void turnOffWiremockLogging(){
+    public void turnOffWiremockLogging() {
         System.setProperty("org.eclipse.jetty.util.log.class", "org.eclipse.jetty.util.log.StdErrLog");
         //System.setProperty("org.eclipse.jetty.util.log.class", "org.eclipse.jetty.util.log.Log");
         //org.eclipse.jetty.util.log.Log;
         System.setProperty("org.eclipse.jetty.LEVEL", "OFF");
         System.setProperty("org.eclipse.jetty.util.log.announce", "false");
-        //
-
         /*org.eclipse.jetty.util.log.Log.getProperties().setProperty("org.eclipse.jetty.LEVEL", "OFF");
         org.eclipse.jetty.util.log.Log.getProperties().setProperty("org.eclipse.jetty.util.log.announce", "false");
         org.eclipse.jetty.util.log.Log.getRootLogger().setDebugEnabled(false);*/
