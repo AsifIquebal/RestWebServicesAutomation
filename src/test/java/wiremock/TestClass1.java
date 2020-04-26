@@ -2,39 +2,46 @@ package wiremock;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.given;
 
-public class TestClass1 {
+public class TestClass1 extends MockBase {
 
-    MockBase mockBase;
-    WireMockServer wireMockServer;
+    Stubs stubs;
 
     @BeforeClass
     public void setUp() {
-        mockBase = new MockBase();
-        wireMockServer = mockBase.wireMockServer;
+        turnOffWiremockLogging();
+        wireMockServer = new WireMockServer();
+        wireMockServer.start();
+        stubs = new Stubs();
     }
 
     @Test
-    public void matchesPreemptiveBasicAuthWhenCredentialAreCorrect() {
-        mockBase.turnOffWiremockLogging();
-        wireMockServer = new WireMockServer();
-        wireMockServer.start();
-        stubFor(get(urlEqualTo("/basic/auth/preemptive"))
-                .withBasicAuth("uname", "password")
-                .willReturn(aResponse().withStatus(200)));
+    public void testAuthPreemptive() {
+        stubs.getStubForBasicAuthPreemptive();
         Response response = given().
                 auth().preemptive().basic("uname", "password").
                 when().
                 get("/basic/auth/preemptive").
                 then().extract().response();
-        System.out.println(response.getStatusLine());
+        Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
     }
 
+    @Test
+    public void testBasicAuth() {
+        stubs.getStubForBasicAuthHeader();
+        Response response = given().
+                header("Authorization", "BASIC dXNlcm5hbWU6cGFzc3dvcmQ=").
+                when().
+                get("/basic/auth/case-insensitive").
+                then().extract().response();
+        Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
+    }
+    
     @Test
     public void testForDynamicPort() {
         //TODO
