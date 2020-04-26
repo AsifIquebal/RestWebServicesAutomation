@@ -31,6 +31,7 @@ public class TestClass1 extends MockBase {
                 when().
                 get("/basic/auth/preemptive").
                 then().extract().response();
+        System.out.println(response.asString());
         Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
     }
 
@@ -42,6 +43,7 @@ public class TestClass1 extends MockBase {
                 when().
                 get("/basic/auth/case-insensitive").
                 then().extract().response();
+        System.out.println(response.asString());
         Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
     }
 
