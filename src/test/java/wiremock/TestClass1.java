@@ -14,6 +14,7 @@ import static io.restassured.RestAssured.given;
 public class TestClass1 extends MockBase {
 
     Stubs stubs;
+    String token;
 
     @BeforeClass
     public void setUp() {
@@ -21,25 +22,14 @@ public class TestClass1 extends MockBase {
         wireMockServer = new WireMockServer();
         wireMockServer.start();
         stubs = new Stubs();
-    }
-
-    @Test
-    public void testAuthPreemptive() {
-        stubs.getStubForBasicAuthPreemptive();
-        Response response = given().
-                auth().preemptive().basic("uname", "password").
-                when().
-                get("/basic/auth/preemptive").
-                then().extract().response();
-        System.out.println(response.asString());
-        Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
+        token = setCredentials("asif","superSecret");
     }
 
     @Test
     public void testBasicAuth() {
         stubs.getStubForBasicAuthHeader();
         Response response = given().
-                header("Authorization", "BASIC dXNlcm5hbWU6cGFzc3dvcmQ=").
+                header("Authorization", token).
                 when().
                 get("/basic/auth/case-insensitive").
                 then().extract().response();
@@ -49,14 +39,15 @@ public class TestClass1 extends MockBase {
 
     @Test
     public void test01(){
-        stubs.getStubForToolQuery();
+        stubs.getStubForToolQuery(token);
         Response response = given().
-                header("Authorization", "BASIC dXNlcm5hbWU6cGFzc3dvcmQ=").
+                header("Authorization", token).
                 when().
                 queryParam("name","Wiremock").
                 get("/tool/mocking").
                 then().extract().response();
         int num = JsonPath.read(response.asString(),"$.number");
+        printJson(response.asString());
         Assert.assertEquals(num, 123, "Failed: Number field mismatch");
     }
 
@@ -73,6 +64,17 @@ public class TestClass1 extends MockBase {
         //WireMock.configureFor();
         /*WireMockResponse response = testClient.getWithPreemptiveCredentials(
                 "/basic/auth/preemptive", wireMockServer.port(), "the-username", "thepassword");*/
+    }
+
+    public String setCredentials(String userName, String passWord){
+        stubs.getStubForBasicAuthPreemptiveAuthToken();
+        Response response = given().
+                auth().preemptive().basic(userName, passWord).
+                when().
+                get("/basic/auth/preemptive").
+                then().extract().response();
+        Assert.assertEquals(response.getStatusCode(), 200, "Auth Token didn't generated...");
+        return JsonPath.read(response.asString(),"$.auth_token");
     }
 
 }
