@@ -41,7 +41,7 @@ public class TestClass1 extends MockBase {
                 then().extract().response();
         Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
     }
-    
+
     @Test
     public void testForDynamicPort() {
         //TODO
