@@ -1,7 +1,13 @@
 package wiremock;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.http.ContentTypeHeader;
 import com.jayway.jsonpath.JsonPath;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -49,6 +55,30 @@ public class TestClass1 extends MockBase {
         int num = JsonPath.read(response.asString(),"$.number");
         printJson(response.asString());
         Assert.assertEquals(num, 123, "Failed: Number field mismatch");
+    }
+
+    @Test
+    public void test02(){
+        ResponseDefinitionBuilder responseDefinitionBuilder = new ResponseDefinitionBuilder();
+        responseDefinitionBuilder
+                .withHeader(ContentTypeHeader.KEY, "application/json")
+                .withStatus(200)
+                .withStatusMessage("Status: OK")
+                .withBody("This is a test");
+
+        WireMock.stubFor(
+                WireMock.get("/tool/selenium")
+                .willReturn(responseDefinitionBuilder)
+        );
+        Response response = given().
+                //header("Authorization", token).
+                when().
+                //queryParam("name","Wiremock").
+                get("/tool/selenium").
+                then().extract().response();
+        System.out.println(response.getStatusLine());
+        System.out.println(response.getHeaders());
+        System.out.println(response.getBody().asString());
     }
 
     @Test
