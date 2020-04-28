@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <employees>
+        <employee id="1">Johnny Dapp</employee>
+        <employee id="2">Al Pacino</employee>
+        <employee id="3">Robert De Niro</employee>
+        <employee id="4">Kevin Spacey</employee>
+        <employee id="5">Denzel Washington</employee>
+
+    </employees>
+    <companies>
+        <company id="6">Tata Consultancy Services</company>
+        <company id="7">Wipro</company>
+        <company id="8">Infosys</company>
+        <company id="9">Microsoft</company>
+        <company id="10">IBM</company>
+        <company id="11">Apple</company>
+        <company id="12" name="Test">Oracle</company>
+    </companies>
+
+    <shopping>
+        <category type="groceries">
+            <item>Chocolate</item>
+            <item>Coffee</item>
+        </category>
+        <category type="supplies">
+            <item>Paper</item>
+            <item quantity="4">Pens</item>
+        </category>
+        <category type="present">
+            <item when="Aug 10">Kathryn's Birthday</item>
+        </category>
+    </shopping>
+
+</root>

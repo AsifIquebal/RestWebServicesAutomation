@@ -52,6 +52,7 @@ public class Stubs {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        // when using query param, use urlPathEqualTo instead of urlEqualTo
         return stubFor(
                 get(urlPathEqualTo("/tool/mocking"))
                         .withHeader("Authorization", containing(token))
