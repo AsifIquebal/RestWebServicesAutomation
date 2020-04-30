@@ -10,8 +10,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
 import static io.restassured.RestAssured.given;
 
 public class TestClass1 extends MockBase {
@@ -41,7 +42,7 @@ public class TestClass1 extends MockBase {
     }
 
     @Test
-    public void test01() {
+    public void test01_sampleGet_queryParams() {
         stubs.getStubForToolQuery(token);
         Response response = given().
                 header("Authorization", token).
@@ -55,7 +56,21 @@ public class TestClass1 extends MockBase {
     }
 
     @Test
-    public void test02() {
+    public void test02_samplePostJsonPayload() {
+        stubFor(post(urlPathEqualTo("/form/params"))
+                .withRequestBody(matchingJsonPath("$.gurus[?(@.tool == 'Rest Assured')]"))
+                .willReturn(aResponse().withBodyFile("test02.json")));
+        File file = new File("src/test/resources/__files/test02.json");
+        Response response = given().
+                when().
+                body(file).
+                post("/form/params").
+                then().extract().response();
+        System.out.println(response.asString());
+    }
+
+    @Test
+    public void test03_responseDefinitionBuilder() {
         ResponseDefinitionBuilder responseDefinitionBuilder = new ResponseDefinitionBuilder();
         responseDefinitionBuilder
                 .withHeader(ContentTypeHeader.KEY, "application/json")
@@ -74,7 +89,7 @@ public class TestClass1 extends MockBase {
     }
 
     @Test
-    public void test03_responseFile() {
+    public void test04_responseFile() {
         ResponseDefinitionBuilder responseDefinitionBuilder = new ResponseDefinitionBuilder();
         responseDefinitionBuilder
                 .withHeader(ContentTypeHeader.KEY, "application/json")
@@ -95,6 +110,7 @@ public class TestClass1 extends MockBase {
 
     @Test
     public void test04_stafeFul() {
+        // todo
         ResponseDefinitionBuilder responseDefinitionBuilder01 = new ResponseDefinitionBuilder();
         responseDefinitionBuilder01
                 .withHeader(ContentTypeHeader.KEY, "application/json")
@@ -109,16 +125,16 @@ public class TestClass1 extends MockBase {
                 .withBody("KEY:02");
 
         stubFor(get(urlPathEqualTo("/todo/items"))//.inScenario("TestScenario")
-                .withQueryParam("num", equalTo("a"))
+                        .withQueryParam("num", equalTo("a"))
                         .withQueryParam("num", equalTo("b"))
-                //.whenScenarioStateIs(STARTED)
-                .willReturn(responseDefinitionBuilder01)
+                        //.whenScenarioStateIs(STARTED)
+                        .willReturn(responseDefinitionBuilder01)
                 //.willSetStateTo("2nd Value")
         );
         stubFor(get(urlPathEqualTo("/todo/items"))//.inScenario("TestScenario")
-                .withQueryParam("num", equalTo("b"))
-                //.whenScenarioStateIs(STARTED)
-                .willReturn(responseDefinitionBuilder02)
+                        .withQueryParam("num", equalTo("b"))
+                        //.whenScenarioStateIs(STARTED)
+                        .willReturn(responseDefinitionBuilder02)
                 //.willSetStateTo("Cancel")
         );
 
