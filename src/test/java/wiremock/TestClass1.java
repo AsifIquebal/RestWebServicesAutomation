@@ -50,11 +50,13 @@ public class TestClass1 extends MockBase {
     public void test01_sampleGet_queryParams() {
         stubs.getStubForToolQuery(token);
         Response response = given()
-                .header("Authorization", token)
+                .auth().oauth2(token)
+                // oauth2 does the same thing, it puts the token into the header
+                //.header("Authorization", token)
                 .when()
                 .queryParam("name", "Wiremock")
                 .get("/tool/mocking")
-                .then().extract().response();
+                .then().log().headers().extract().response();
         int num = JsonPath.read(response.asString(), "$.number");
         printJson(response.asString());
         Assert.assertEquals(num, 123, "Failed: Number field mismatch");
