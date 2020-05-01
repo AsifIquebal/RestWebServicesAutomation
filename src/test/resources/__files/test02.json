@@ -5,16 +5,14 @@
       "name": "Johan Haleby",
       "company": "Parkster",
       "country": "Sweden",
-      "tool" : "Rest Assured",
-      "2019-contribution": 310
+      "tool" : "Rest Assured"
     },
     {
       "id": 2,
       "name": "Tom Akehurst",
       "company": "MockLab",
       "country": "UK",
-      "tool" : "WireMock",
-      "2019-contribution": 123
+      "tool" : "WireMock"
     }
   ]
 }
