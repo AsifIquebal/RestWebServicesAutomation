@@ -2,6 +2,7 @@ package TestCases;
 
 import base.Base;
 import com.jayway.jsonpath.JsonPath;
+import io.qameta.allure.Description;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -17,8 +18,8 @@ import static org.hamcrest.Matchers.equalTo;
 public class TestClass1 extends Base {
 
     Response response;
-
-    @Test
+    @Description("Test Description Modification: Login test with wrong username and wrong password.")
+    @Test(description = "Sample GET call testing")
     public void validateGetAlbumStatusCode() {
         log.info("Calling GET api: " + RestAssured.baseURI + "/albums");
         response = given()
@@ -30,7 +31,7 @@ public class TestClass1 extends Base {
         Assert.assertEquals(response.getStatusCode(), 200, "Status Code Mismatch...");
     }
 
-    @Test
+    @Test(description = "GET call from utility")
     public void validateAlbumSize() {
         response = utils.GET_Response("/albums");
         List<String> list = JsonPath.read(response.asString(), "$.[*].id");

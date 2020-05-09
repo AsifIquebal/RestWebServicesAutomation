@@ -8,6 +8,7 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
+import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
@@ -15,6 +16,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.requestSpecification;
 
+@Log4j2
 public class Demo_withTestNG {
     WireMockServer wireMockServer;
 
@@ -85,7 +87,7 @@ public class Demo_withTestNG {
                         .then()
                         .extract()
                         .response();
-        System.out.println(response.asString());
+        log.info(response.asString());
     }
 
     @Test

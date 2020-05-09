@@ -2,7 +2,10 @@ package utility;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -16,8 +19,10 @@ import java.io.StringWriter;
 import static io.restassured.RestAssured.given;
 
 public class utils {
-
+    private static final Logger logger = LogManager.getLogger();
+    @Step("GET Call, End Point: {0}")
     public static Response GET_Response(String endPoint) {
+        logger.debug("This is a test for Allure");
         return given()
                 .when()
                 .get(endPoint)

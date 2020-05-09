@@ -5,19 +5,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.BasicCredentials;
 import com.github.tomakehurst.wiremock.stubbing.StubMapping;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
+@Log4j2
 public class Stubs {
-
-    public final static Logger log = LogManager.getLogger();
 
     public StubMapping getStubForBasicAuthPreemptiveAuthToken() {
         BasicCredentials basicCredentials = new BasicCredentials("asif", "superSecret");
         String token = basicCredentials.asAuthorizationHeaderValue();
-        String json = "{\"auth_token\":\""+token+"\"}";
+        String json = "{\"auth_token\":\"" + token + "\"}";
         log.info("Token: " + json);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
@@ -39,6 +37,7 @@ public class Stubs {
         return stubFor(get(urlEqualTo("/basic/auth/case-insensitive"))
                 .withBasicAuth("asif", "superSecret")
                 .willReturn(aResponse()
+                        .withBody("This is a sample body")
                         .withStatus(200)
                 ));
     }

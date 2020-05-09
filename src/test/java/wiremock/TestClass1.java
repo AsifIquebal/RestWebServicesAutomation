@@ -1,53 +1,58 @@
 package wiremock;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.ContentTypeHeader;
 import com.jayway.jsonpath.JsonPath;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import wiremock.myPojos.Guru;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.given;
 
-public class TestClass1 extends MockBase {
+@Log4j2
+public class TestClass1 {
 
     Stubs stubs;
     String token;
+    MockBase mockBase;
 
     @BeforeClass
     public void setUp() {
-        turnOffWiremockLogging();
-        wireMockServer = new WireMockServer();
-        wireMockServer.start();
+        mockBase = new MockBase();
+        mockBase.turnOffWiremockLogging();
+        mockBase.startWireMockServer();
         stubs = new Stubs();
-        token = setCredentials("asif", "superSecret");
+        token = mockBase.getAuthToken("asif", "superSecret");
+    }
+
+    @AfterClass
+    public void tearDown() {
+        mockBase.stopWireMockServer();
     }
 
     @Test
-    public void testBasicAuth() {
+    public void test01_BasicAuth() {
         stubs.getStubForBasicAuthHeader();
         Response response = given()
                 .header("Authorization", token)
                 .when()
                 .get("/basic/auth/case-insensitive")
                 .then().extract().response();
-        System.out.println(response.asString());
+        log.info(response.asString());
         Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
     }
 
     @Test
-    public void test01_sampleGet_queryParams() {
+    public void test02_sampleGet_queryParams() {
         stubs.getStubForToolQuery(token);
         Response response = given()
                 .auth().oauth2(token)
@@ -58,12 +63,12 @@ public class TestClass1 extends MockBase {
                 .get("/tool/mocking")
                 .then().log().headers().extract().response();
         int num = JsonPath.read(response.asString(), "$.number");
-        printJson(response.asString());
+        mockBase.printJson(response.asString());
         Assert.assertEquals(num, 123, "Failed: Number field mismatch");
     }
 
     @Test
-    public void test02_samplePostJsonPayload() {
+    public void test03_samplePostJsonPayload() {
         stubFor(post(urlPathEqualTo("/form/params"))
                 .withRequestBody(matchingJsonPath("$.gurus[?(@.tool == 'Rest Assured')]"))
                 .willReturn(aResponse().withBodyFile("test02.json")));
@@ -78,26 +83,26 @@ public class TestClass1 extends MockBase {
     }
 
     @Test
-    public void test03_jsonPathParamExample() {
+    public void test04_jsonPathParamExample() {
         stubFor(get(urlPathEqualTo("/all/gurus"))
                 .willReturn(aResponse()
                         .withHeader(ContentTypeHeader.KEY, "application/json")
                         .withBodyFile("test02.json")));
 
-        List<Guru> gurus01= given()
+        List<Guru> gurus01 = given()
                 .when().get("/all/gurus").then()
-                .extract().jsonPath().getList("gurus",Guru.class);
-        System.out.println("Size: " + gurus01.size() + "\n" +gurus01.get(0).toString());
+                .extract().jsonPath().getList("gurus", Guru.class);
+        System.out.println("Size: " + gurus01.size() + "\n" + gurus01.get(0).toString());
 
         List<Guru> gurus02 = given()
                 .when().get("/all/gurus").then()
-                .extract().jsonPath().param("id",2).getList("gurus.findAll {it.id == id}",Guru.class);
-        System.out.println("Size: " + gurus02.size() + "\n" +gurus02.get(0).toString());
+                .extract().jsonPath().param("id", 2).getList("gurus.findAll {it.id == id}", Guru.class);
+        System.out.println("Size: " + gurus02.size() + "\n" + gurus02.get(0).toString());
 
         List<Guru> gurus03 = given()
                 .when().get("/all/gurus").then()
-                .extract().jsonPath().param("id",2).getList("gurus.findAll { it -> it.id == id }",Guru.class);
-        System.out.println("Size: " + gurus03.size() + "\n" +gurus03.get(0).toString());
+                .extract().jsonPath().param("id", 2).getList("gurus.findAll { it -> it.id == id }", Guru.class);
+        System.out.println("Size: " + gurus03.size() + "\n" + gurus03.get(0).toString());
 
         /*Response response = given()
                 .contentType(ContentType.JSON)
@@ -121,7 +126,7 @@ public class TestClass1 extends MockBase {
     }
 
     @Test
-    public void test03_responseDefinitionBuilder() {
+    public void test05_responseDefinitionBuilder() {
         ResponseDefinitionBuilder responseDefinitionBuilder = new ResponseDefinitionBuilder();
         responseDefinitionBuilder
                 .withHeader(ContentTypeHeader.KEY, "application/json")
@@ -140,7 +145,7 @@ public class TestClass1 extends MockBase {
     }
 
     @Test
-    public void test04_responseFile() {
+    public void test06_responseFile() {
         ResponseDefinitionBuilder responseDefinitionBuilder = new ResponseDefinitionBuilder();
         responseDefinitionBuilder
                 .withHeader(ContentTypeHeader.KEY, "application/json")
@@ -159,9 +164,8 @@ public class TestClass1 extends MockBase {
         System.out.println(response.asString());
     }
 
-
     @Test
-    public void test04_stafeFul() {
+    public void test07_stafeFul() {
         // todo
         ResponseDefinitionBuilder responseDefinitionBuilder01 = new ResponseDefinitionBuilder();
         responseDefinitionBuilder01
@@ -212,17 +216,6 @@ public class TestClass1 extends MockBase {
         //WireMock.configureFor();
         /*WireMockResponse response = testClient.getWithPreemptiveCredentials(
                 "/basic/auth/preemptive", wireMockServer.port(), "the-username", "thepassword");*/
-    }
-
-    public String setCredentials(String userName, String passWord) {
-        stubs.getStubForBasicAuthPreemptiveAuthToken();
-        Response response = given().
-                auth().preemptive().basic(userName, passWord).
-                when().
-                get("/basic/auth/preemptive").
-                then().extract().response();
-        Assert.assertEquals(response.getStatusCode(), 200, "Auth Token didn't generated...");
-        return JsonPath.read(response.asString(), "$.auth_token");
     }
 
     @Test

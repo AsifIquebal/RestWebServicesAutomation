@@ -1,30 +1,47 @@
 package wiremock;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import static io.restassured.RestAssured.given;
 
+@Log4j2
 public class MockBase {
-    public final static Logger log = LogManager.getLogger();
-    public WireMockServer wireMockServer;
 
+    private WireMockServer wireMockServer;
 
-    @BeforeClass
-    public void setUpBase() {
+    public void startWireMockServer() {
+        log.info("Starting WireMockServer");
+        wireMockServer = new WireMockServer();
+        wireMockServer.start();
+    }
+
+    public void stopWireMockServer() {
+        if (null != wireMockServer && wireMockServer.isRunning()) {
+            log.info("Shutting Down WireMock...");
+            wireMockServer.shutdownServer();
+        }
+    }
+
+    public String getAuthToken(String userName, String passWord) {
+        log.info("Setting User Credentials...");
+        new Stubs().getStubForBasicAuthPreemptiveAuthToken();
+        Response response = given().
+                auth().preemptive().basic(userName, passWord).
+                when().
+                get("/basic/auth/preemptive").
+                then().extract().response();
+        Assert.assertEquals(response.getStatusCode(), 200, "Auth Token didn't generated...");
+        return JsonPath.read(response.asString(), "$.auth_token");
     }
 
     @AfterClass
@@ -40,8 +57,6 @@ public class MockBase {
 
     @BeforeMethod
     public void beforeTestMethod(ITestResult result) {
-        //public void beforeTestMethod(ITestContext context){
-        //log.info("Context Name: " + context.);
         log.info("Executing -> " + result.getMethod().getMethodName());
     }
 
@@ -49,7 +64,6 @@ public class MockBase {
     public void afterTestMethod(ITestResult result) {
         log.info("Finished Executing -> " + result.getMethod().getMethodName());
     }
-
 
     public void turnOffWiremockLogging() {
         System.setProperty("org.eclipse.jetty.util.log.class", "org.eclipse.jetty.util.log.StdErrLog");
@@ -62,7 +76,7 @@ public class MockBase {
         org.eclipse.jetty.util.log.Log.getRootLogger().setDebugEnabled(false);*/
     }
 
-    public static void printJson(String obj) {
+    public void printJson(String obj) {
         ObjectMapper objectMapper = new ObjectMapper();
         //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         try {
