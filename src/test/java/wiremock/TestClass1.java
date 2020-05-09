@@ -37,16 +37,19 @@ public class TestClass1 {
     @AfterClass
     public void tearDown() {
         mockBase.stopWireMockServer();
+        mockBase.closePrintStream();
     }
 
     @Test
     public void test01_BasicAuth() {
         stubs.getStubForBasicAuthHeader();
         Response response = given()
+                .spec(mockBase.setRALogFilter())
                 .header("Authorization", token)
                 .when()
                 .get("/basic/auth/case-insensitive")
-                .then().extract().response();
+                .then()
+                .extract().response();
         log.info(response.asString());
         Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
     }

@@ -4,13 +4,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.jayway.jsonpath.JsonPath;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.LogDetail;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 import static io.restassured.RestAssured.given;
 
@@ -18,6 +26,31 @@ import static io.restassured.RestAssured.given;
 public class MockBase {
 
     private WireMockServer wireMockServer;
+
+    private RequestSpecification requestSpecification;
+    PrintStream printStream;
+
+    public RequestSpecification setRALogFilter() {
+        try {
+            printStream = new PrintStream(new FileOutputStream("log/app.log", true));
+        } catch (
+                FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        requestSpecification = new RequestSpecBuilder()
+                .addFilter(RequestLoggingFilter.logRequestTo(printStream))
+                .addFilter(ResponseLoggingFilter.logResponseTo(printStream, LogDetail.ALL))
+                .build();
+        return requestSpecification;
+    }
+
+    public void closePrintStream() {
+        log.info("Closing PS...");
+        if (null != printStream) {
+            printStream.flush();
+            printStream.close();
+        }
+    }
 
     public void startWireMockServer() {
         log.info("Starting WireMockServer");
@@ -44,7 +77,6 @@ public class MockBase {
         return JsonPath.read(response.asString(), "$.auth_token");
     }
 
-    @AfterClass
     public void tearDown() {
         if (null != wireMockServer && wireMockServer.isRunning()) {
             // graceful shutdown
