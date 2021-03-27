@@ -6,7 +6,10 @@ import io.qameta.allure.Description;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.ResponseSpecification;
+import org.hamcrest.Matchers;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utility.utils;
 
@@ -18,6 +21,20 @@ import static org.hamcrest.Matchers.equalTo;
 public class TestClass1 extends Base {
 
     Response response;
+    ResponseSpecification responseSpecification = null;
+
+    @BeforeClass
+    public void setupResponseSpecification()
+    {
+        // Create a ResponseSpecification
+        responseSpecification=  RestAssured.expect();
+        responseSpecification.contentType(ContentType.JSON);
+        responseSpecification.statusCode(200);
+        responseSpecification.time(Matchers.lessThan(5000L));
+        responseSpecification.statusLine("HTTP/1.1 200 OK");
+
+    }
+
     @Description("Test Description Modification: Login test with wrong username and wrong password.")
     @Test(description = "Sample GET call testing")
     public void validateGetAlbumStatusCode() {
@@ -25,7 +42,7 @@ public class TestClass1 extends Base {
         response = given()
                 .when()
                 .get("/albums")
-                .then().log().status()
+                .then().log().status().spec(responseSpecification)
                 .extract()
                 .response();
         Assert.assertEquals(response.getStatusCode(), 200, "Status Code Mismatch...");
