@@ -77,7 +77,7 @@ public class Demo_withTestNG {
         // https://github.com/tomakehurst/wiremock/blob/master/src/test/java/ignored/Examples.java#374
     }
 
-    @Test
+    //@Test
     public void test1() {
         Response response =
                 given()
@@ -90,13 +90,13 @@ public class Demo_withTestNG {
         log.info(response.asString());
     }
 
-    @Test
+    //@Test
     public void responseSpec() {
         ResponseSpecBuilder responseSpecBuilder = new ResponseSpecBuilder();
         //responseSpecBuilder.expectBody().expectContentType().expectHeader().expectCookie().expectStatusCode().expectResponseTime()
     }
 
-    @Test
+    //@Test
     public void getRequest() {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.requestSpecification = new RequestSpecBuilder().
@@ -136,7 +136,7 @@ public class Demo_withTestNG {
         //given().log().path();
     }
 
-    @Test
+    //@Test
     public void test2() {
         /*Student student = new Student();
         student
@@ -160,7 +160,7 @@ public class Demo_withTestNG {
         }*/
     }
 
-    @Test
+    //@Test
     public void getHeaders() {
         System.out.println("---------------------------------------------------------------");
         Headers headers = given()
@@ -177,7 +177,7 @@ public class Demo_withTestNG {
         System.out.println("---------------------------------------------------------------");
     }
 
-    @Test
+    //@Test
     public void getHeadersUsingResponse() {
         System.out.println("---------------------------------------------------------------");
         Response response = given()
@@ -192,7 +192,7 @@ public class Demo_withTestNG {
         System.out.println("---------------------------------------------------------------");
     }
 
-    @Test
+    //@Test
     public void basicAuth() {
         given().
                 auth().preemptive().basic("uname", "password").
@@ -201,7 +201,7 @@ public class Demo_withTestNG {
                 then().extract().response();
     }
 
-    @AfterClass
+    //@AfterClass
     public void tearDown() {
         if (null != wireMockServer && wireMockServer.isRunning()) {
             // graceful shutdown

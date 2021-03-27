@@ -25,7 +25,7 @@ public class TestClass1 {
     String token;
     MockBase mockBase;
 
-    @BeforeClass
+    //@BeforeClass
     public void setUp() {
         mockBase = new MockBase();
         mockBase.turnOffWiremockLogging();
@@ -34,13 +34,13 @@ public class TestClass1 {
         token = mockBase.getAuthToken("asif", "superSecret");
     }
 
-    @AfterClass
+    //@AfterClass
     public void tearDown() {
         mockBase.stopWireMockServer();
         mockBase.closePrintStream();
     }
 
-    @Test
+    //@Test
     public void test01_BasicAuth() {
         stubs.getStubForBasicAuthHeader();
         Response response = given()
@@ -54,7 +54,7 @@ public class TestClass1 {
         Assert.assertEquals(response.getStatusCode(), 200, "Failed: Status Code didn't matched");
     }
 
-    @Test
+    //@Test
     public void test02_sampleGet_queryParams() {
         stubs.getStubForToolQuery(token);
         Response response = given()
@@ -70,7 +70,7 @@ public class TestClass1 {
         Assert.assertEquals(num, 123, "Failed: Number field mismatch");
     }
 
-    @Test
+    //@Test
     public void test03_samplePostJsonPayload() {
         stubFor(post(urlPathEqualTo("/form/params"))
                 .withRequestBody(matchingJsonPath("$.gurus[?(@.tool == 'Rest Assured')]"))
@@ -85,7 +85,7 @@ public class TestClass1 {
         System.out.println(gurus.get(0));
     }
 
-    @Test
+    //@Test
     public void test04_jsonPathParamExample() {
         stubFor(get(urlPathEqualTo("/all/gurus"))
                 .willReturn(aResponse()
@@ -128,7 +128,7 @@ public class TestClass1 {
         System.out.println("===============\n"+gurus1.get(0).toString()+"===============\n");*/
     }
 
-    @Test
+    //@Test
     public void test05_responseDefinitionBuilder() {
         ResponseDefinitionBuilder responseDefinitionBuilder = new ResponseDefinitionBuilder();
         responseDefinitionBuilder
@@ -147,7 +147,7 @@ public class TestClass1 {
         System.out.println(response.getBody().asString());
     }
 
-    @Test
+    //@Test
     public void test06_responseFile() {
         ResponseDefinitionBuilder responseDefinitionBuilder = new ResponseDefinitionBuilder();
         responseDefinitionBuilder
@@ -167,7 +167,7 @@ public class TestClass1 {
         System.out.println(response.asString());
     }
 
-    @Test
+    //@Test
     public void test07_stafeFul() {
         // todo
         ResponseDefinitionBuilder responseDefinitionBuilder01 = new ResponseDefinitionBuilder();
@@ -206,12 +206,12 @@ public class TestClass1 {
 
     }
 
-    @Test
+    //@Test
     public void testForDynamicPort() {
         //TODO
     }
 
-    @Test
+    //@Test
     public void testForSpecificPort() {
         //TODO
         //wireMockServer = new WireMockServer(wireMockConfig().port(2345));
@@ -221,7 +221,7 @@ public class TestClass1 {
                 "/basic/auth/preemptive", wireMockServer.port(), "the-username", "thepassword");*/
     }
 
-    @Test
+    //@Test
     public void testPriority() {
         //TODO
         //Catch-all case

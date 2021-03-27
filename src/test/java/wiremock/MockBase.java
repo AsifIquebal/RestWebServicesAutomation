@@ -87,12 +87,12 @@ public class MockBase {
         // wireMockServer.stop();
     }
 
-    @BeforeMethod
+    //@BeforeMethod
     public void beforeTestMethod(ITestResult result) {
         log.info("Executing -> " + result.getMethod().getMethodName());
     }
 
-    @AfterMethod
+    //@AfterMethod
     public void afterTestMethod(ITestResult result) {
         log.info("Finished Executing -> " + result.getMethod().getMethodName());
     }
