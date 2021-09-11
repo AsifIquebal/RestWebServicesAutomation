@@ -24,10 +24,9 @@ public class TestClass1 extends Base {
     ResponseSpecification responseSpecification = null;
 
     @BeforeClass
-    public void setupResponseSpecification()
-    {
+    public void setupResponseSpecification() {
         // Create a ResponseSpecification
-        responseSpecification=  RestAssured.expect();
+        responseSpecification = RestAssured.expect();
         responseSpecification.contentType(ContentType.JSON);
         responseSpecification.statusCode(200);
         responseSpecification.time(Matchers.lessThan(5000L));

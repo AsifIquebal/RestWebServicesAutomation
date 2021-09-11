@@ -9,13 +9,10 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import utility.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TestClass4 {
 
     @Test
-    public void test1(){
+    public void test1() {
         Subnets subnets = new Subnets();
         Request request = new Request();
 
@@ -43,7 +40,7 @@ public class TestClass4 {
         // Have a look at the pay load being passed
         printJson(subnets);
 
-        Response response = utils.POST_Request("/subnets?cloud_provider=aws&account_name=account_name",subnets);
+        Response response = utils.POST_Request("/subnets?cloud_provider=aws&account_name=account_name", subnets);
     }
 
     public static void printJson(Object obj) {

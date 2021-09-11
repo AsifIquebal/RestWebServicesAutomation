@@ -11,7 +11,7 @@ import static io.restassured.RestAssured.given;
 public class TestClass5 {
 
     @Test
-    public void test1(){
+    public void test1() {
         Response response = given()
                 .when()
                 .get("http://api.icndb.com/jokes/random?limitTo=[nerdy]")
@@ -19,7 +19,7 @@ public class TestClass5 {
                 .response();
 
         JSONObject json = new JSONObject(response.asString());
-        String xml = XML.toString(json,"root");
+        String xml = XML.toString(json, "root");
         System.out.println(utils.prettyFormat(xml));
 
         /*System.out.println(response.asString());

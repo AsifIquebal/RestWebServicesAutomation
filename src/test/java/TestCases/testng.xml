@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Logging Tests" parallel="classes" thread-count="10">
-    <listeners>
+    <!--<listeners>
         <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener"/>
-    </listeners>
+    </listeners>-->
     <test verbose="1" name="Lucky Pug">
         <classes>
             <class name="TestCases.TestClass1"/>

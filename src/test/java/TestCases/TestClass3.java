@@ -2,11 +2,8 @@ package TestCases;
 
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
-import org.json.JSONObject;
-import org.json.XML;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import utility.utils;
 
 import java.util.List;
 
@@ -21,9 +18,9 @@ public class TestClass3 {
                 .get("http://api.icndb.com/jokes/random?limitTo=[nerdy]")
                 .then().extract()
                 .response();
-        Assert.assertTrue(response.getStatusCode()==200,"Status Code didn't matched");
-        List<String> cats = JsonPath.read(response.asString(),"$.value.categories");
-        Assert.assertTrue(cats.get(0).equals("nerdy"),"Category didn't matched");
+        Assert.assertTrue(response.getStatusCode() == 200, "Status Code didn't matched");
+        List<String> cats = JsonPath.read(response.asString(), "$.value.categories");
+        Assert.assertTrue(cats.get(0).equals("nerdy"), "Category didn't matched");
     }
 
 

@@ -4,7 +4,7 @@ pipeline {
 
         stage('Cleaning Stage') {
             steps {
-                withMaven(maven : 'MyMaven'){
+                withMaven(maven : 'MAVEN_HOME'){
                     script{
                         if (!isUnix()) {
                             echo "it's Windows"
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Testing Stage') {
             steps {
-                withMaven(maven : 'MyMaven'){
+                withMaven(maven : 'MAVEN_HOME'){
                     script{
                         if (!isUnix()) {
                             echo "it's Windows"
