@@ -7,7 +7,7 @@ import demo2.Subnets;
 import demo2.Tags;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
-import utility.utils;
+import utility.Utils;
 
 public class TestClass4 {
 
@@ -40,7 +40,7 @@ public class TestClass4 {
         // Have a look at the pay load being passed
         printJson(subnets);
 
-        Response response = utils.POST_Request("/subnets?cloud_provider=aws&account_name=account_name", subnets);
+        Response response = Utils.POST_Request("/subnets?cloud_provider=aws&account_name=account_name", subnets);
     }
 
     public static void printJson(Object obj) {

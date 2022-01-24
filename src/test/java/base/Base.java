@@ -44,6 +44,7 @@ public class Base {
     public void afterTestMethod(ITestResult result){
         log.info("Finished Executing -> "+result.getMethod().getMethodName());
     }
+
     /*@AfterMethod
     public void logResultsAfterTestMethod(ITestResult result){
         if(result.isSuccess()){

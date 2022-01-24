@@ -1,0 +1,4 @@
+!!TestCases.Customer
+firstName: "John"
+lastName: "Doe"
+age: 20

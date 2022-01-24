@@ -11,7 +11,7 @@ import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import utility.utils;
+import utility.Utils;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class TestClass1 extends Base {
 
     @Test(description = "GET call from utility")
     public void validateAlbumSize() {
-        response = utils.GET_Response("/albums");
+        response = Utils.GET_Response("/albums");
         List<String> list = JsonPath.read(response.asString(), "$.[*].id");
         Assert.assertEquals(list.size(), 100, "Album size didn't matched");
         //response.jsonPath().getList("$.[*].id").size()
@@ -57,7 +57,7 @@ public class TestClass1 extends Base {
 
     @Test
     public void validateUsersCompany() {
-        response = utils.GET_Response("/users");
+        response = Utils.GET_Response("/users");
         // can be dynamic, based on another end point response
         List<String> list = JsonPath.read(response.asString(), "$.[*].[?(@.name=='Leanne Graham')].company.name");
         Assert.assertEquals(list.get(0), "Romaguera-Crona");

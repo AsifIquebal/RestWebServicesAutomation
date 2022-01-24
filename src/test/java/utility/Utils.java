@@ -18,7 +18,8 @@ import java.io.StringWriter;
 import static io.restassured.RestAssured.given;
 
 @Log4j2
-public class utils {
+public class Utils {
+
     @Step("GET Call, End Point: {0}")
     public static Response GET_Response(String endPoint) {
         log.debug("This is a test for Allure");
@@ -31,6 +32,7 @@ public class utils {
                 .extract().response();
     }
 
+    @Step("POST Call, End Point: {0}")
     public static Response POST_Request(String endPoint, Object object) {
         return given()
                 .header("Content-Type", "application/json")
@@ -70,7 +72,7 @@ public class utils {
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .when()
-                .patch(endPoint)
+                .delete(endPoint)
                 .then().log().status()
                 .extract().response();
     }
@@ -83,7 +85,6 @@ public class utils {
             e.printStackTrace();
         }
     }
-
 
     public static String prettyFormat(String input, int indent) {
         try {

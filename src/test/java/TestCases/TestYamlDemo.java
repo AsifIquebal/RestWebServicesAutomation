@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class TestYamlDemo {
 
-
     @Test
     public void test01() {
         Yaml yaml = new Yaml();
