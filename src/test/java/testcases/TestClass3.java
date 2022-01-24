@@ -1,4 +1,4 @@
-package TestCases;
+package testcases;
 
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;

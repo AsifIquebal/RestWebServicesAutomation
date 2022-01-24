@@ -5,7 +5,7 @@
     </listeners>-->
     <test verbose="1" name="Lucky Pug">
         <classes>
-            <class name="TestCases.TestClass1"/>
+            <class name="testcases.TestClass1"/>
         </classes>
     </test>
 </suite>

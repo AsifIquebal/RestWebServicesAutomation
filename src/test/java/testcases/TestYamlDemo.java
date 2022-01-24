@@ -1,4 +1,4 @@
-package TestCases;
+package testcases;
 
 import org.testng.annotations.Test;
 import org.yaml.snakeyaml.Yaml;

@@ -1,4 +1,4 @@
-package TestCases;
+package testcases;
 
 import base.Base;
 import com.jayway.jsonpath.JsonPath;

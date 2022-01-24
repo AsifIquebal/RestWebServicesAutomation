@@ -1,4 +1,4 @@
-package TestCases;
+package testcases;
 
 import io.restassured.response.Response;
 import org.json.JSONObject;

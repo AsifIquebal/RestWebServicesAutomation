@@ -1,4 +1,4 @@
-package TestCases;
+package testcases;
 
 public class Customer {
     private String firstName;
