@@ -44,6 +44,7 @@ public class TestClass1 extends Base {
                 .then().log().status().spec(responseSpecification)
                 .extract()
                 .response();
+        System.out.println(response.asString());
         Assert.assertEquals(response.getStatusCode(), 200, "Status Code Mismatch...");
     }
 
