@@ -31,7 +31,6 @@ public class TestClass1 extends Base {
         responseSpecification.statusCode(200);
         responseSpecification.time(Matchers.lessThan(5000L));
         responseSpecification.statusLine("HTTP/1.1 200 OK");
-
     }
 
     @Description("Test Description Modification: Login test with wrong username and wrong password.")
