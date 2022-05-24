@@ -1,10 +1,6 @@
 package demo2;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Request
-{
+public class Request {
     private Tags[] Tags;
     //private ArrayList<Tags> Tags;
 
@@ -14,8 +10,7 @@ public class Request
 
     private String cidr;
 
-    public Tags[] getTags ()
-    {
+    public Tags[] getTags() {
         return Tags;
     }
 
@@ -24,9 +19,9 @@ public class Request
         return Tags;
     }*/
 
-    public Request setTags (Tags[] Tags)
-    {
-        this.Tags = Tags; return this;
+    public Request setTags(Tags[] Tags) {
+        this.Tags = Tags;
+        return this;
     }
 
     /*public Request setTags (ArrayList<Tags> Tags)
@@ -34,34 +29,31 @@ public class Request
         this.Tags = Tags; return this;
     }*/
 
-    public String getAvailability_zone ()
-    {
+    public String getAvailability_zone() {
         return availability_zone;
     }
 
-    public Request setAvailability_zone (String availability_zone)
-    {
-        this.availability_zone = availability_zone;return this;
+    public Request setAvailability_zone(String availability_zone) {
+        this.availability_zone = availability_zone;
+        return this;
     }
 
-    public String getVpc_id ()
-    {
+    public String getVpc_id() {
         return vpc_id;
     }
 
-    public Request setVpc_id (String vpc_id)
-    {
-        this.vpc_id = vpc_id;return this;
+    public Request setVpc_id(String vpc_id) {
+        this.vpc_id = vpc_id;
+        return this;
     }
 
-    public String getCidr ()
-    {
+    public String getCidr() {
         return cidr;
     }
 
-    public Request setCidr (String cidr)
-    {
-        this.cidr = cidr;return this;
+    public Request setCidr(String cidr) {
+        this.cidr = cidr;
+        return this;
     }
 /*
     @Override

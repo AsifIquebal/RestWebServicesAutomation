@@ -7,9 +7,6 @@ import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 import wiremock.myPojos.Guru;
 
 import java.io.File;

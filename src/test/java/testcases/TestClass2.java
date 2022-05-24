@@ -138,7 +138,7 @@ public class TestClass2 extends Base {
                 .compare(expected.getBody(), actual.getBody())
                 .compare(expected.getUserId(), actual.getUserId())
                 .result();
-        System.out.println(comparisonResult);
+        System.out.println("ComparisonResult: " + comparisonResult);
         Assert.assertEquals(comparisonResult, 0);
     }
 

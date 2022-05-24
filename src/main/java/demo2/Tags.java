@@ -2,34 +2,31 @@ package demo2;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Tags
-{
+public class Tags {
     //@JsonProperty("Value")
     private String Value;
 
     //@JsonProperty("Key")
     private String Key;
 
-    public String getValue ()
-    {
+    public String getValue() {
         return Value;
     }
 
     @JsonProperty("Value")
-    public Tags setValue (String Value)
-    {
-        this.Value = Value;return this;
+    public Tags setValue(String Value) {
+        this.Value = Value;
+        return this;
     }
 
-    public String getKey ()
-    {
+    public String getKey() {
         return Key;
     }
 
     @JsonProperty("Key")
-    public Tags setKey (String Key)
-    {
-        this.Key = Key;return this;
+    public Tags setKey(String Key) {
+        this.Key = Key;
+        return this;
     }
 
 /*    @Override

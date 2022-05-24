@@ -75,5 +75,20 @@ public class TestClass1 extends Base {
                 .get("/photos");
     }
 
-
+    // path param example
+    @Test
+    public void testGetEmployeeWithPathParam() {
+        Response empResponse = given().
+                baseUri("http://localhost:8080").
+                contentType(ContentType.JSON).
+                pathParam("id", "33").
+                when().
+                get("/employee/{id}").
+                then().
+                log().all().
+                assertThat().
+                statusCode(200).
+                extract().
+                response();
+    }
 }

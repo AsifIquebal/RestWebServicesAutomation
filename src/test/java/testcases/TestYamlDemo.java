@@ -5,8 +5,6 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import pojos.Student;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
@@ -77,6 +75,38 @@ public class TestYamlDemo {
         }*/
     }
 
+    // TODO
+    @Test
+    public void test06(){
+        Yaml yaml = new Yaml(new Constructor(People.class));
+        InputStream inputStream = this.getClass()
+                .getClassLoader()
+                .getResourceAsStream("multiple_document.yaml");
+        //Iterable<Object> load = yaml.loadAll(inputStream);
+        //System.out.println(load);
+        Iterable<Object> docs = yaml.loadAll(inputStream);
+        for (Object doc: docs){
+            //System.out.println(doc);
+            People people = (People) doc;
+            System.out.println(people.row);
+            System.out.println(people.getFirstName());
+            System.out.println(people.getLastName());
+            System.out.println(people.getAge());
+
+            /*for (k,v in doc.items()){
+                System.out.println();//
+            }*/
+        }
+        //load.
+        /*int count = 0;
+        Iterable<Object> objects = yaml.loadAll(inputStream);
+        List<People> peopleList =  yaml.loadAll(inputStream);*/
+        //yaml.loadAll(inputStream).forEach(System.out::println);
+        /*for (Object object : yaml.loadAll(inputStream)) {
+            count++;
+            System.out.println(object);
+        }*/
+    }
 
 
 
