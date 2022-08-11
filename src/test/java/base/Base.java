@@ -1,5 +1,7 @@
 package base;
 
+import io.restassured.response.Response;
+import io.restassured.specification.ResponseSpecification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import io.restassured.RestAssured;
@@ -14,9 +16,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Base {
-
     public final static Logger log = LogManager.getLogger();
-
+    public Response response;
+    public ResponseSpecification responseSpecification = null;
     @BeforeClass
     public void setUp(){
         System.out.println("Test Class: " + this.getClass().getSimpleName());

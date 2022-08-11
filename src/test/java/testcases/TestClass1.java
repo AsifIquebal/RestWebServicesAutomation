@@ -13,6 +13,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utility.Utils;
 
+import java.io.File;
+import java.sql.Date;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -20,12 +22,8 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class TestClass1 extends Base {
 
-    Response response;
-    ResponseSpecification responseSpecification = null;
-
     @BeforeClass
     public void setupResponseSpecification() {
-        // Create a ResponseSpecification
         responseSpecification = RestAssured.expect();
         responseSpecification.contentType(ContentType.JSON);
         responseSpecification.statusCode(200);
@@ -77,7 +75,7 @@ public class TestClass1 extends Base {
 
     // path param example
     @Test
-    public void testGetEmployeeWithPathParam() {
+    public void testPathParam() {
         Response empResponse = given().
                 baseUri("http://localhost:8080").
                 contentType(ContentType.JSON).
@@ -90,5 +88,29 @@ public class TestClass1 extends Base {
                 statusCode(200).
                 extract().
                 response();
+    }
+
+    @Test
+    public void testQueryParam() {
+        Response response = given()
+                .queryParam("page", "2")
+                .when()
+                .get("https://reqres.in/api/users");
+        Assert.assertEquals(response.getStatusCode(), 200);
+        System.out.println(response.getBody().asString());
+    }
+
+    // file upload: multipart example
+    @Test
+    public void fileUploadTest() {
+        given()
+                .param("timestamp", new Date(284757).getTime())
+                .multiPart("file", new File("/path/to/file.json"))
+                .accept(ContentType.JSON)
+                .when()
+                .post("http://localhost:8080/fileupload")
+                .then()
+                .statusCode(200)
+                .body("success", equalTo(true));
     }
 }

@@ -21,7 +21,6 @@
         <wiremock>2.32.0</wiremock>
         <java.version>1.8</java.version>
         <aspectj.version>1.9.5</aspectj.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
         <plugins>
