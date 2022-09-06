@@ -1,0 +1,25 @@
+- id: 20
+  name: Bruce
+  year: 2020
+  address: Gotham City
+  department: Computer Science
+  courses:
+    - name: Algorithms
+      credits: 6
+    - name: Data Structures
+      credits: 5
+    - name: Design Patterns
+      credits: 3
+
+- id: 21
+  name: Joker
+  year: 2020
+  address: Gotham City
+  department: Mathematics
+  courses:
+    - name: Algebra
+      credits: 6
+    - name: Calculas
+      credits: 5
+    - name: Trigonometry
+      credits: 3

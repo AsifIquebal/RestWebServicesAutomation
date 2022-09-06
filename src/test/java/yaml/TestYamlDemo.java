@@ -1,9 +1,10 @@
-package testcases;
+package yaml;
 
 import org.testng.annotations.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import pojos.Student;
+import testcases.Customer;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
