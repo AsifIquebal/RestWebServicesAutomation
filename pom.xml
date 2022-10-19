@@ -15,7 +15,7 @@
         <testng.version>7.5</testng.version>
         <restAssured.version>4.4.0</restAssured.version>
         <json-path.version>2.6.0</json-path.version>
-        <jackson-databind.version>2.13.2.1</jackson-databind.version>
+        <jackson-databind.version>2.13.4.1</jackson-databind.version>
         <slf4j-simple.version>1.7.33</slf4j-simple.version>
         <log4j.version>2.17.1</log4j.version>
         <wiremock>2.32.0</wiremock>
